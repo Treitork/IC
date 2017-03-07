@@ -8,8 +8,12 @@
 
 #ifndef BOARD_H
 #define BOARD_H
+
+
+const int MAXSIZE = 10;
+
 class Board{
-    int board[10][10];
+    int board[MAXSIZE][MAXSIZE];
     int sizeBoard;
 public:
     Board();
@@ -18,8 +22,8 @@ public:
 };
 
 Board::Board () {
-    for(int x = 0; x < 10; x++){
-        for(int y = 0; y < 10; y++){
+    for(int x = 0; x < MAXSIZE; x++){
+        for(int y = 0; y < MAXSIZE; y++){
             board[x][y] = 0;
         }
     }

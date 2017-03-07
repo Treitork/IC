@@ -174,6 +174,27 @@ void displayLista(list<node> myList) {
     cout << "---------------------End------------------------" << endl;
 }
 
+void displaySolution(list<node> myList, int x, int y) {
+    list<node> aux;
+    cout << "Numero | Fila | Columna" << endl;
+    cout << "-----------------------" << endl;
+    while (x != -1 && y != -1) {
+        for (list<node>::iterator it = myList.begin(); it != myList.end(); ++it) {
+            if (it->x == x && it->y == y) {
+                aux.push_front(*it);
+                x = it->parentX;
+                y = it->parentY;
+                break;
+            }
+        }
+    }
+    int i = 0;
+    for (list<node>::iterator it = aux.begin(); it != aux.end(); ++it) {
+        cout << i <<":\t(" << it->x << ",\t" << it->y << ")" << endl;
+        i++;
+    }
+}
+
 void aStar() {
     list<node> open, closed;
     int xIni, yIni, xEnd, yEnd, size, successorX, successorY;
@@ -232,18 +253,19 @@ void aStar() {
                 }
             }
         }
-        displayLista(open); //debug
+        //displayLista(open); //debug
         open.remove(current);
-        displayLista(open); //debug
-        displayLista(closed); //debug
+        //displayLista(open); //debug
+        //displayLista(closed); //debug
         closed.push_back(current);
-        displayLista(closed); //debug
+        //displayLista(closed); //debug
     }
-    if (board.getValue(current.y, current.x) != 3) {
-        cout << "Ha ocurrido un error" << endl;
+    if (board.getValue(current.y, current.x) == 3) {
+        displaySolution(closed, current.x, current.y);
+    } else {
+        cout << "Ha ocurrido un error, no se ha podido alcanzar la meta" << endl;
     }
-    cout << "--------------------------FINAL----------------------------" << endl;
-    displayLista(closed); //debug
+
 }
 
 int main(int argc, char** argv) {
