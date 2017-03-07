@@ -21,33 +21,35 @@ struct node {
     double fn;
     int parentX;
     int parentY;
-    bool operator==(const node& a) const
-    {
+
+    bool operator==(const node& a) const {
         return (x == a.x && y == a.y);
     }
-    node& operator=(const node& a)
-    {
-        x=a.x;
-        y=a.y;
-        gn=a.gn;
-        hn=a.hn;
-        fn=a.fn;
+
+    node& operator=(const node& a) {
+        x = a.x;
+        y = a.y;
+        gn = a.gn;
+        hn = a.hn;
+        fn = a.fn;
+        parentX = a.parentX;
+        parentY = a.parentY;
         return *this;
     }
 };
 
-node getLowerFn(list<node> myList){
+node getLowerFn(list<node> myList) {
     node actualMinor = myList.front();
-    for (list<node>::iterator it=myList.begin(); it != myList.end(); ++it){
-        if(actualMinor.fn > it->fn){
+    for (list<node>::iterator it = myList.begin(); it != myList.end(); ++it) {
+        if (actualMinor.fn > it->fn) {
             actualMinor = *it;
         }
     }
     return actualMinor;
 }
 
-double getDistance(int x1, int y1, int x2, int y2){
-    return sqrt(pow((x2 - x1),2)+ pow((y2 - y1),2));
+double getDistance(int x1, int y1, int x2, int y2) {
+    return sqrt(pow((x2 - x1), 2) + pow((y2 - y1), 2));
 }
 
 void initializeNode(node &target, int x, int y, double gn, double hn, double fn) {
@@ -84,8 +86,8 @@ int readBoard(Board &board, int &xIni, int &yIni, int &xEnd, int &yEnd, int &siz
                             value = 2;
                             break;
                         case 'F':
-                            xEnd = row;
-                            yEnd = i;
+                            xEnd = i;
+                            yEnd = row;
                             value = 3;
                             break;
                         default:
@@ -107,9 +109,10 @@ int readBoard(Board &board, int &xIni, int &yIni, int &xEnd, int &yEnd, int &siz
 //dir possible values: 0 to 7, 0 is bottom, clockwise direction
 //x and y are coordinates of current node
 //size is the size of the board
-bool checkCorrectPosition(Board board, int dir, int x, int y, int size, int &finalX, int &finalY){
+
+bool checkCorrectPosition(Board board, int dir, int x, int y, int size, int &finalX, int &finalY) {
     bool check = true;
-    switch(dir){
+    switch (dir) {
         case 0:
             y--;
             break;
@@ -139,21 +142,23 @@ bool checkCorrectPosition(Board board, int dir, int x, int y, int size, int &fin
             y--;
             break;
     }
-    if(x > size || x <= 0 || y > size || y <= 0){
+    if (x > size || x <= 0 || y > size || y <= 0) {
         check = false;
-    }
-    else if(board.getValue(x,y) != 1){
+    } else if (board.getValue(y, x) != 1) {
         check = false;
+        if (board.getValue(y, x) == 3) { //the end
+            check = true;
+        }
     }
     finalX = x;
     finalY = y;
     return check;
 }
 
-bool listContainsNode(list<node> myList, node target, node &nodeFound){
+bool listContainsNode(list<node> myList, node target, node &nodeFound) {
     bool found = false;
-    for (list<node>::iterator it=myList.begin(); it != myList.end(); ++it){
-        if(*it == target){ //operator ==
+    for (list<node>::iterator it = myList.begin(); it != myList.end(); ++it) {
+        if (*it == target) { //operator ==
             found = true;
             nodeFound = *it; //operator =
         }
@@ -161,7 +166,15 @@ bool listContainsNode(list<node> myList, node target, node &nodeFound){
     return found;
 }
 
-void aStar(){
+void displayLista(list<node> myList) {
+    cout << "---------------------List------------------------" << endl;
+    for (list<node>::iterator it = myList.begin(); it != myList.end(); ++it) {
+        cout << it->x << ":" << it->y << endl;
+    }
+    cout << "---------------------End------------------------" << endl;
+}
+
+void aStar() {
     list<node> open, closed;
     int xIni, yIni, xEnd, yEnd, size, successorX, successorY;
     double currentCost;
@@ -176,29 +189,30 @@ void aStar(){
     //initial node filled
     open.push_back(start);
     //astar algorithm
-    while(!open.empty()){
+    while (!open.empty()) {
         current = getLowerFn(open);
-        if(board.getValue(current.x, current.y) == 3){
+        if (board.getValue(current.y, current.x) == 3) {
+            closed.push_back(current);
             break; //we found the solution
         }
         //generate each node successor
-        for(int dir = 0; dir < 8; dir++){
-            if(checkCorrectPosition(board, dir, current.x, current.y, size, successorX, successorY)){
+        for (int dir = 0; dir < 8; dir++) {
+            if (checkCorrectPosition(board, dir, current.x, current.y, size, successorX, successorY)) {
                 successor.x = successorX;
                 successor.y = successorY;
-                currentCost  = current.gn + getDistance(current.x, current.y, successor.x, successor.y);
-                if(listContainsNode(open, successor, successorFound)){
-                    if(successorFound.gn <= currentCost){
+                currentCost = current.gn + getDistance(current.x, current.y, successor.x, successor.y);
+                if (listContainsNode(open, successor, successorFound)) {
+                    if (successorFound.gn <= currentCost) {
                         continue;
                     }
                     open.remove(successorFound); //delete successor
                     successorFound.gn = currentCost; //update
                     successorFound.parentX = current.x;
                     successorFound.parentY = current.y;
+                    successorFound.fn = successorFound.gn + successorFound.hn;
                     open.push_back(successorFound); //insert
-                }
-                else if(listContainsNode(closed, successor, successorFound)){
-                    if(successorFound.gn <= currentCost){
+                } else if (listContainsNode(closed, successor, successorFound)) {
+                    if (successorFound.gn <= currentCost) {
                         continue;
                     }
                     //move found from closed to open
@@ -206,30 +220,34 @@ void aStar(){
                     successorFound.gn = currentCost; //update
                     successorFound.parentX = current.x;
                     successorFound.parentY = current.y;
+                    successorFound.fn = successorFound.gn + successorFound.hn;
                     open.push_back(successorFound);
-                }
-                else{
+                } else {
                     successor.gn = currentCost;
                     successor.hn = getDistance(successor.x, successor.y, xEnd, yEnd);
                     successor.fn = successor.gn + successor.hn;
-                    successorFound.parentX = current.x;
-                    successorFound.parentY = current.y;
+                    successor.parentX = current.x;
+                    successor.parentY = current.y;
                     open.push_back(successor);
                 }
-                successor.gn = currentCost;
-                successorFound.parentX = current.x;
-                successorFound.parentY = current.y;
             }
-            closed.push_back(successor);
         }
+        displayLista(open); //debug
+        open.remove(current);
+        displayLista(open); //debug
+        displayLista(closed); //debug
+        closed.push_back(current);
+        displayLista(closed); //debug
     }
-    if(board.getValue(current.x, current.y) != 3){
+    if (board.getValue(current.y, current.x) != 3) {
         cout << "Ha ocurrido un error" << endl;
     }
+    cout << "--------------------------FINAL----------------------------" << endl;
+    displayLista(closed); //debug
 }
 
 int main(int argc, char** argv) {
-    
+    aStar();
     return 0;
 }
 
