@@ -81,8 +81,8 @@ int readBoard(Board &board, int &xIni, int &yIni, int &xEnd, int &yEnd, int &siz
                             value = 1;
                             break;
                         case 'I':
-                            xIni = row;
-                            yIni = i;
+                            xIni = i;
+                            yIni = row;
                             value = 2;
                             break;
                         case 'F':
