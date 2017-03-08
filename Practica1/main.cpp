@@ -60,6 +60,14 @@ void initializeNode(node &target, int x, int y, double gn, double hn, double fn)
     target.fn = fn;
 }
 
+void fillNode(node &target, double gn, double hn, double fn, int parentX, int parentY) {
+    target.gn = gn;
+    target.hn = hn;
+    target.fn = fn;
+    target.parentX = parentX;
+    target.parentY = parentY;
+}
+
 int readBoard(Board &board, int &xIni, int &yIni, int &xEnd, int &yEnd, int &size) {
     string line;
     ifstream myfile("board.txt");
@@ -227,10 +235,7 @@ void aStar() {
                         continue;
                     }
                     open.remove(successorFound); //delete successor
-                    successorFound.gn = currentCost; //update
-                    successorFound.parentX = current.x;
-                    successorFound.parentY = current.y;
-                    successorFound.fn = successorFound.gn + successorFound.hn;
+                    fillNode(successorFound, currentCost, successorFound.hn, successorFound.gn + successorFound.hn, current.x, current.y);
                     open.push_back(successorFound); //insert
                 } else if (listContainsNode(closed, successor, successorFound)) {
                     if (successorFound.gn <= currentCost) {
@@ -238,27 +243,16 @@ void aStar() {
                     }
                     //move found from closed to open
                     closed.remove(successorFound);
-                    successorFound.gn = currentCost; //update
-                    successorFound.parentX = current.x;
-                    successorFound.parentY = current.y;
-                    successorFound.fn = successorFound.gn + successorFound.hn;
+                    fillNode(successorFound, currentCost, successorFound.hn, successorFound.gn + successorFound.hn, current.x, current.y);
                     open.push_back(successorFound);
                 } else {
-                    successor.gn = currentCost;
-                    successor.hn = getDistance(successor.x, successor.y, xEnd, yEnd);
-                    successor.fn = successor.gn + successor.hn;
-                    successor.parentX = current.x;
-                    successor.parentY = current.y;
+                    fillNode(successor, currentCost, getDistance(successor.x, successor.y, xEnd, yEnd), successor.gn + successor.hn, current.x, current.y);
                     open.push_back(successor);
                 }
             }
         }
-        //displayLista(open); //debug
         open.remove(current);
-        //displayLista(open); //debug
-        //displayLista(closed); //debug
         closed.push_back(current);
-        //displayLista(closed); //debug
     }
     if (board.getValue(current.y, current.x) == 3) {
         displaySolution(closed, current.x, current.y);
