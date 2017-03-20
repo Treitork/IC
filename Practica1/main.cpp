@@ -70,7 +70,7 @@ void fillNode(node &target, double gn, double hn, double fn, int parentX, int pa
 
 int readBoard(Board &board, int &xIni, int &yIni, int &xEnd, int &yEnd, int &size) {
     string line;
-    ifstream myfile("board.txt");
+    ifstream myfile("tablero.txt");
     bool sizeIsKnown = false;
     int row, value;
     if (myfile.is_open()) {
@@ -108,7 +108,7 @@ int readBoard(Board &board, int &xIni, int &yIni, int &xEnd, int &yEnd, int &siz
         }
         myfile.close();
     } else {
-        cout << "board.txt not found" << endl;
+        cout << "tablero.txt not found" << endl;
         return -1;
     }
     return 0;

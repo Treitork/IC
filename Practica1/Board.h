@@ -10,7 +10,7 @@
 #define BOARD_H
 
 
-const int MAXSIZE = 20;
+const int MAXSIZE = 50;
 
 class Board{
     int board[MAXSIZE][MAXSIZE];
