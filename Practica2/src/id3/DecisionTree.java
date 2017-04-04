@@ -85,12 +85,12 @@ public class DecisionTree {
         
         private void printArea(Node nodeToPrint, String indent, String value, JTextArea textArea) {
 		String newIndent = indent + "      ";
-                String prefijo = " ║";
+                String prefijo = "\t ║";
 		// if it is a class node
 		if(nodeToPrint instanceof ClassNode){
 			// cast to a class node and print it
 			ClassNode node = (ClassNode) nodeToPrint;
-			textArea.append("   ¿Se sale? "+ node.className +"\n");
+			textArea.append("   ¿Se sale? "+ (node.className.equals("si") ? "✔" : "✖") +"\n");
 			//textArea.append(" "+"\n");
 		}else{
 			// if it is a decision node, cast it to a decision node
@@ -98,9 +98,12 @@ public class DecisionTree {
 			DecisionNode node = (DecisionNode) nodeToPrint;
 			
 			if ( node.attribute ==0){
-			textArea.append(allAttributes[node.attribute] +"\n");
+                            textArea.append("       ╔═══════════════╗\n");
+                            textArea.append("       ║  " + allAttributes[node.attribute] +" ║\n");
+                            textArea.append("       ╚════════╦══════╝\n");
                         }else
-                            textArea.append(prefijo + indent + indent +"╚══ " + allAttributes[node.attribute] +"\n");
+                            //estan son las segundas
+                            textArea.append(prefijo + indent + "╚══ " + allAttributes[node.attribute] +"\n");
 			//textArea.append(" "+"\n");
                         
 			// then recursively call the method for subtrees
@@ -108,15 +111,15 @@ public class DecisionTree {
                             
                                 if(node.nodes.length == 2){
                                     if(node.attributeValues.length - 1 != i)
-                                        textArea.append(prefijo + newIndent + newIndent +"╠══" +node.attributeValues[i]);
+                                        textArea.append(prefijo + newIndent +"╠══" +node.attributeValues[i]);
                                     else
-                                        textArea.append(prefijo + newIndent + newIndent +"╚══" +node.attributeValues[i]);
+                                        textArea.append(prefijo + newIndent + "╚══" +node.attributeValues[i]);
                                 }else{
                                     if(i==2){
-                                        textArea.append(indent +"╠══" +node.attributeValues[i]);
+                                        textArea.append(indent +"\t ╚══" +node.attributeValues[i]);
                                     }
                                     else
-                                        textArea.append(indent +"╠══" +node.attributeValues[i] + "\n");
+                                        textArea.append(indent +"\t ╠══" +node.attributeValues[i] + "\n");
                                 }
 				
 				printArea(node.nodes[i], newIndent, node.attributeValues[i],textArea);
