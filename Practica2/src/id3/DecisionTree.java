@@ -98,7 +98,7 @@ public class DecisionTree {
 			DecisionNode node = (DecisionNode) nodeToPrint;
 			
 			if ( node.attribute ==0){
-                            textArea.append("       ╔═══════════════╗\n");
+                            textArea.append("\n       ╔═══════════════╗\n");
                             textArea.append("       ║  " + allAttributes[node.attribute] +" ║\n");
                             textArea.append("       ╚════════╦══════╝\n");
                         }else
