@@ -98,12 +98,12 @@ public class DecisionTree {
 			DecisionNode node = (DecisionNode) nodeToPrint;
 			
 			if ( node.attribute ==0){
-                            textArea.append("\n       ╔═══════════════╗\n");
-                            textArea.append("       ║  " + allAttributes[node.attribute] +" ║\n");
-                            textArea.append("       ╚════════╦══════╝\n");
+                            textArea.append("\n          ╔════════╗\n");
+                            textArea.append("          ║  " + allAttributes[node.attribute] +"  ║\n");
+                            textArea.append("          ╚════╦═══╝\n");
                         }else
                             //estan son las segundas
-                            textArea.append(prefijo + indent + "╚══ " + allAttributes[node.attribute] +"\n");
+                            textArea.append(prefijo + indent + "╚═ " + allAttributes[node.attribute] +"\n");
 			//textArea.append(" "+"\n");
                         
 			// then recursively call the method for subtrees
@@ -111,15 +111,15 @@ public class DecisionTree {
                             
                                 if(node.nodes.length == 2){
                                     if(node.attributeValues.length - 1 != i)
-                                        textArea.append(prefijo + newIndent +"╠══" +node.attributeValues[i]);
+                                        textArea.append(prefijo + newIndent +"╠═" +node.attributeValues[i]);
                                     else
-                                        textArea.append(prefijo + newIndent + "╚══" +node.attributeValues[i]);
+                                        textArea.append(prefijo + newIndent + "╚═" +node.attributeValues[i]);
                                 }else{
                                     if(i==2){
-                                        textArea.append(indent +"\t ╚══" +node.attributeValues[i]);
+                                        textArea.append(indent +"\t ╚═" +node.attributeValues[i]);
                                     }
                                     else
-                                        textArea.append(indent +"\t ╠══" +node.attributeValues[i] + "\n");
+                                        textArea.append(indent +"\t ╠═" +node.attributeValues[i] + "\n");
                                 }
 				
 				printArea(node.nodes[i], newIndent, node.attributeValues[i],textArea);
