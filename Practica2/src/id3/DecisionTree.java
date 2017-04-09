@@ -140,16 +140,16 @@ public class DecisionTree {
             String prediction = null;
 		if(newInstance[0].equals("soleado")){
                     if(newInstance[3].equals("normal"))
-                        prediction = "✔";
+                        prediction = "Afirmativo";
                     else if(newInstance[3].equals("alta"))
-                        prediction = "✘";
+                        prediction = "Negativo";
                 }else if(newInstance[0].equals("lluvioso")){
                     if(newInstance[2].equals("verdad"))
-                        prediction = "✘";
+                        prediction = "Negativo";
                     else if (newInstance[2].equals("falso"))
-                        prediction = "✔";
+                        prediction = "Afirmativo";
                 }else if(newInstance[0].equals("nublado")){
-                    prediction = "✔";
+                    prediction = "Afirmativo";
                 }
                 return prediction;
 	}

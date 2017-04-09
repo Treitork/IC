@@ -76,8 +76,8 @@ public class FramePrincipal extends javax.swing.JFrame {
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "verdad", "falso" }));
         jComboBox3.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        jLabel6.setFont(new java.awt.Font("Symbola", 0, 12)); // NOI18N
-        jLabel6.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jLabel6.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        jLabel6.setBorder(null);
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel5.setText("¿Se sale al exterior?");
@@ -112,7 +112,7 @@ public class FramePrincipal extends javax.swing.JFrame {
                         .addGap(30, 30, 30)
                         .addComponent(jLabel5)
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -148,8 +148,8 @@ public class FramePrincipal extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(12, 12, 12)
-                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(16, 16, 16)
                         .addComponent(jScrollPane1))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -200,10 +200,10 @@ public class FramePrincipal extends javax.swing.JFrame {
         instance[4] = null;
 
         String prediction = tree.predict2(instance);
-        if (prediction.equals("si")){
+        if (prediction.equals("Afirmativo")){
             jLabel6.setForeground(Color.blue);
-        }else if (prediction.equals("no")){
-            jLabel6.setForeground(Color.red);
+        }else if (prediction.equals("Negativo")){
+            jLabel6.setForeground(Color.black);
         }
         jLabel6.setText(prediction);
     }//GEN-LAST:event_jButton1ActionPerformed
